@@ -1,0 +1,8 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "conpilerOptions":{
+    "assets":["mail/templates/**/*.hbs"],
+    "watchAssets":true
+  }
+}
