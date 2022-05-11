@@ -9,7 +9,7 @@ export class Items {
   itemName: string;
 
   @Prop({ required: true })
-  barCode: number;
+  barCode: string;
 
   @Prop({ required: true })
   importPrice: number;

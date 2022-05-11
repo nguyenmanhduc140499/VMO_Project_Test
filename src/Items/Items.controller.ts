@@ -2,6 +2,7 @@ import { updateItem } from './dto/updateItem.dto';
 import { createItem } from './dto/createItem.dto';
 
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -23,6 +24,7 @@ import { Request } from 'express';
 import { JwtAuthGuard } from 'src/Auth/guards/jwtAuth.guard';
 import { RolesGuard } from 'src/Authorization/roles/roles.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { diskStorage } from 'multer';
 
 @Controller('items')
 export class ItemController {
@@ -65,19 +67,41 @@ export class ItemController {
     return await this.itemService.findOne(itemName);
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  // @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @ApiBearerAuth()
-  @Roles(Role.Admin)
+  // @Roles(Role.Admin)
   async create(@Body() createItem: createItem) {
     return await this.itemService.create(createItem);
   }
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file', { dest: './upload' }))
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: './upload',
+        filename: (req, file, cb) => {
+          const name = file.originalname.split('.')[0];
+          const fileExtension = file.originalname.split('.')[1];
+          const newFileName =
+            name.split(' ').join('_') + '_' + Date.now() + '.' + fileExtension;
+          cb(null, newFileName);
+        },
+      }),
+      fileFilter: (req, file, cb) => {
+        if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+          return cb(null, false);
+        }
+        cb(null, true);
+      },
+    }),
+  )
   uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-    return file.buffer.toString();
+    if (!file) {
+      throw new BadRequestException('file is not image');
+    } else {
+      return file.filename;
+    }
   }
 
   @Put(':id')
@@ -89,4 +113,9 @@ export class ItemController {
   async delete(@Param('id') id: string) {
     return await this.itemService.delete(id);
   }
+
+  // @Get('barcode')
+  // async renderBarcode(): Promise<Object> {
+  //   return await this.itemService.rederBarCode();
+  // }
 }

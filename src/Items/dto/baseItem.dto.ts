@@ -5,7 +5,7 @@ export class baseItemDTO {
   itemName?: string;
 
   @ApiProperty({ type: Number })
-  barCode?: number;
+  barCode?: string;
 
   @ApiProperty({ type: Number })
   importPrice?: number;

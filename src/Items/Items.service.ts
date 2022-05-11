@@ -11,6 +11,8 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Items, ItemsDocument } from './schema/Item.schema';
+import { Canvas } from 'canvas';
+import JsBarcode from 'jsbarcode';
 
 @Injectable()
 export class ItemsService {
@@ -36,13 +38,18 @@ export class ItemsService {
     return await this.ItemModel.findById(id).exec();
   }
 
+  generateBarcode(value: string): string {
+    const canvas = new Canvas(100, 100, 'image');
+    JsBarcode(canvas, value);
+    return canvas.toDataURL();
+  }
+
   async create(createItem: createItem): Promise<Items> {
-    const randomBarcode = Math.floor(
-      100000000000 + Math.random() * 900000000000,
-    ).toString();
+    const series = createItem.barCode;
+    const imageBarCode = this.generateBarcode(series);
     return await new this.ItemModel({
       ...createItem,
-      barCode: randomBarcode,
+      barCode: imageBarCode,
       createdAt: new Date(),
     }).save();
   }
