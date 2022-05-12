@@ -67,10 +67,10 @@ export class ItemController {
     return await this.itemService.findOne(itemName);
   }
 
-  // @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   @ApiBearerAuth()
-  // @Roles(Role.Admin)
+  @Roles(Role.Admin)
   async create(@Body() createItem: createItem) {
     return await this.itemService.create(createItem);
   }

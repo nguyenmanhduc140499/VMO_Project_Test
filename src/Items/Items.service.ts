@@ -13,6 +13,7 @@ import { Model } from 'mongoose';
 import { Items, ItemsDocument } from './schema/Item.schema';
 import { Canvas } from 'canvas';
 import JsBarcode from 'jsbarcode';
+import fs from 'fs';
 
 @Injectable()
 export class ItemsService {
@@ -38,10 +39,15 @@ export class ItemsService {
     return await this.ItemModel.findById(id).exec();
   }
 
-  generateBarcode(value: string): string {
+  generateBarcode(value: string) {
     const canvas = new Canvas(100, 100, 'image');
+    const random = Math.floor(Math.random() * (90000 - 10000)) + 10000;
+    const name = random.toString();
+    const path = `C:\\Users\\Thinkpad\\Desktop\\project-test\\upload\\barCode\\barcode_${name}.png`;
     JsBarcode(canvas, value);
-    return canvas.toDataURL();
+    const buffer = canvas.toBuffer();
+    fs.createWriteStream(path).write(buffer);
+    return buffer;
   }
 
   async create(createItem: createItem): Promise<Items> {
