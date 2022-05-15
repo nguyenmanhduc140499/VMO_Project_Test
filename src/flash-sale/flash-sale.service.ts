@@ -84,13 +84,14 @@ export class FlashSaleService {
   ) {
     const date = new Date();
     const timeMail = new Date(date.getTime() + 1 * 1000);
-    const startDate = new Date(date.getTime() + 15 * 61000);
+    const startDate = new Date(date.getTime() + 1 * 6000);
     let IdFlashSale: string;
     let quantityWhenFsOn: number;
     const IdItem = createFlashSaleDto.itemApplication.IdItem;
     const Item = await this.itemService.findOne(IdItem);
     const cost = Item.price;
     const originalQuantity = Item.quantity;
+    let FlashSale: FlashSaleDocument;
 
     const recipient = emailSchedule.recipient;
     const mailJob = new CronJob(timeMail, async () => {
@@ -104,7 +105,8 @@ export class FlashSaleService {
       quantityWhenFsOn = createFlashSaleDto.itemApplication.quantityApplication;
 
       await this.updateItemWhenFSOn(createFlashSaleDto);
-      return flashSale;
+      FlashSale = flashSale;
+      return FlashSale;
     });
 
     const startCheck = new Date(startDate.getTime() + 1 * 5000);
@@ -141,6 +143,7 @@ export class FlashSaleService {
     });
     this.schedulerRegistry.addCronJob(nameJob, job);
     this.schedulerRegistry.addCronJob(`${Date.now()}`, mailJob);
+    this.schedulerRegistry.addCronJob(`name`, jobCheckTimeOut);
     mailJob.start();
     job.start();
     jobCheckTimeOut.start();

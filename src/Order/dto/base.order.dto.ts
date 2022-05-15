@@ -10,6 +10,9 @@ export class BaseOrderDto {
   @ApiProperty({ type: String })
   UserID: string;
 
+  @ApiProperty({ type: String })
+  IdVoucher: string;
+
   @IsNotEmpty()
   @ApiProperty({ type: Number })
   quantity: number;

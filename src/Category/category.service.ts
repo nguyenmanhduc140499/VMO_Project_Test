@@ -41,4 +41,14 @@ export class CategoryService {
   async delete(id: string): Promise<Category> {
     return await this.model.findByIdAndDelete(id).exec();
   }
+
+  async handlingList() {
+    const list = this.findAll();
+    const length = (await list).length;
+    const indexRandomFrom = Math.floor(Math.random() * (length - 0)) + 0;
+    const indexRandomTo = Math.floor(Math.random() * (length - 0)) + 0;
+    let temp = list[indexRandomFrom];
+    list[indexRandomTo] = list[indexRandomFrom] = temp;
+    
+  }
 }

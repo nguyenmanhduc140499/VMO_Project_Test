@@ -6,6 +6,9 @@ export type VoucherDocument = Voucher & Document;
 @Schema()
 export class Voucher {
   @Prop()
+  IdVoucher?: string;
+
+  @Prop()
   value: number;
 
   @Prop()
@@ -14,8 +17,8 @@ export class Voucher {
   @Prop()
   voucherTime: Date;
 
-  @Prop()
-  state: boolean;
+  // @Prop()
+  // state: boolean;
 
   @Prop()
   completedAt?: Date;

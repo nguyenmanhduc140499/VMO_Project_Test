@@ -1,4 +1,4 @@
-import { Voucher } from 'src/Voucher/schema/voucher.schema';
+import { Voucher, VoucherDocument } from 'src/Voucher/schema/voucher.schema';
 import { ItemsService } from 'src/Items/Items.service';
 import { UsersService } from 'src/Users/user.Service';
 import { updateOrderDto } from './dto/updateOrder.dto';
@@ -18,12 +18,14 @@ import {
 } from './schema/orderDetail.schema';
 import { Model } from 'mongoose';
 import { detailOrderDto } from './dto/detailOrder.dto';
+import { VoucherService } from 'src/Voucher/voucher.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     @Inject(forwardRef(() => ItemsService))
     private itemService: ItemsService,
+    private voucherService: VoucherService,
     private readonly userService: UsersService,
     @InjectModel(Orders.name)
     private readonly orderModel: Model<OrdersDocument>,
@@ -67,7 +69,10 @@ export class OrderService {
     return user.voucher;
   }
 
-  async createOrder(createOrderDto: CreateOrderDto, createDetailOrder) {
+  async createOrder(
+    createOrderDto: CreateOrderDto,
+    createDetailOrder: detailOrderDto,
+  ) {
     const ItemID = createOrderDto.ItemID;
     const itemQuatity = await this.itemService.checkQuantity(ItemID);
     const itemPrice = await this.itemService.ckeckPrice(ItemID);
@@ -98,59 +103,59 @@ export class OrderService {
   async createDetailOrder(
     createDetailOrder: detailOrderDto,
   ): Promise<OrdersDetailDocument> {
-    let IdOrderDetail: string;
     const UserId = createDetailOrder.UserID;
+    const idVoucher = createDetailOrder.IdVoucher;
+    await this.voucherService.checkDateVoucher(idVoucher);
     const voucher = await this.getVoucherOfUser(UserId);
     const ItemID = createDetailOrder.ItemID;
     const itemPrice = await this.itemService.ckeckPrice(ItemID);
     if (voucher) {
       let value: number;
-      let state: boolean;
       for (let valueVoucher of voucher) {
-        value = valueVoucher.value;
-        state = valueVoucher.state;
+        if (valueVoucher.IdVoucher === idVoucher) {
+          value = valueVoucher.value;
+          break;
+        } else {
+          value == 0;
+        }
       }
-      if (state === true && value == 50) {
-        const detailOrder = await new this.orderDetailModel({
+      if (value == 0) {
+        return await new this.orderDetailModel({
+          paymentAfterDiscount: itemPrice * createDetailOrder.quantity,
+          ...createDetailOrder,
+        }).save();
+      }
+      if (value == 50) {
+        return await new this.orderDetailModel({
           paymentAfterDiscount: (itemPrice * createDetailOrder.quantity) / 2,
           ...createDetailOrder,
         }).save();
-        IdOrderDetail = detailOrder.id;
-        return detailOrder;
       }
-      if (state === true && value == 25) {
-        const detailOrder = await new this.orderDetailModel({
+      if (value == 25) {
+        return await new this.orderDetailModel({
           paymentAfterDiscount:
             (itemPrice * createDetailOrder.quantity * 75) / 100,
           ...createDetailOrder,
         }).save();
-        IdOrderDetail = detailOrder.id;
-        return detailOrder;
       }
-      if (state === true && value == 75) {
-        const detailOrder = await new this.orderDetailModel({
+      if (value == 75) {
+        return await new this.orderDetailModel({
           paymentAfterDiscount:
             (itemPrice * createDetailOrder.quantity * 25) / 100,
           ...createDetailOrder,
         }).save();
-        IdOrderDetail = detailOrder.id;
-        return detailOrder;
       }
-      if (state === true && value == 100) {
-        const detailOrder = await new this.orderDetailModel({
+      if (value == 100) {
+        return await new this.orderDetailModel({
           paymentAfterDiscount: itemPrice * createDetailOrder.quantity * 0,
           ...createDetailOrder,
         }).save();
-        IdOrderDetail = detailOrder.id;
-        return detailOrder;
       }
     } else {
-      const detailOrder = await new this.orderDetailModel({
+      return await new this.orderDetailModel({
         paymentAfterDiscount: itemPrice * createDetailOrder.quantity,
         ...createDetailOrder,
       }).save();
-      IdOrderDetail = detailOrder.id;
-      return detailOrder;
     }
   }
 

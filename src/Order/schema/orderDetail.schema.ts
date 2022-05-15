@@ -12,6 +12,9 @@ export class OrdersDetail extends Orders {
   IdOrder: string;
 
   @Prop()
+  IdVoucher: string;
+
+  @Prop()
   paymentAfterDiscount: number;
 }
 export const OrderDetailSchema = SchemaFactory.createForClass(OrdersDetail);

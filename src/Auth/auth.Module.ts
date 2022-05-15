@@ -24,7 +24,7 @@ import { MailModule } from 'src/mail/mail.module';
     MailModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '600s' },
+      signOptions: { expiresIn: '6000s' },
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],

@@ -6,10 +6,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { OrdersDetail, OrderDetailSchema } from './schema/orderDetail.schema';
 import { Orders, OrderSchema } from './schema/order.schema';
 import { ItemModule } from 'src/Items/Items.module';
+import { VoucherModule } from 'src/Voucher/voucher.module';
 
 @Module({
   imports: [
     UsersModule,
+    VoucherModule,
     MongooseModule.forFeature([
       { name: OrdersDetail.name, schema: OrderDetailSchema },
       { name: Orders.name, schema: OrderSchema },

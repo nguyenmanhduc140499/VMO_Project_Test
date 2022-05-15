@@ -11,15 +11,21 @@ import {
   Req,
   Put,
   Query,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { CreateUserDTO } from './dto/createUser.dto';
 import { UsersService } from './user.Service';
 import { Request } from 'express';
 import { updateUserDTO } from './dto/updateUser.dto';
+import { VoucherService } from 'src/Voucher/voucher.service';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly service: UsersService) {}
+  constructor(
+    private readonly service: UsersService,
+    private readonly voucherService: VoucherService,
+  ) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
   @SerializeOptions({
@@ -66,7 +72,21 @@ export class UsersController {
 
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: updateUserDTO) {
-    return await this.service.update(id, updateUserDto);
+    const idVoucher = updateUserDto.voucher.IdVoucher;
+    const voucherQuantityUpdate = updateUserDto.voucher.voucherQuantity;
+    const checkVoucher = await this.voucherService.findOne(idVoucher);
+    const originQuantity = checkVoucher.voucherQuantity;
+    if (originQuantity >= voucherQuantityUpdate) {
+      return await this.service.update(id, updateUserDto);
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Not enough voucher quantity',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
   @Delete(':id')
   async delete(@Param('id') id: string) {

@@ -30,7 +30,6 @@ export class MailService {
   }
 
   async sendMailFlashSale(email: string): Promise<void> {
-    console.log(email);
     return await this.mailerService
       .sendMail({
         to: email,

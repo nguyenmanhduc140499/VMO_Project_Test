@@ -23,12 +23,7 @@ export class BaseUserDTO {
   voucher?: {
     IdVoucher: string;
     value: number;
-    state: boolean;
+    voucherQuantity: number;
+    // state: boolean;
   };
-
-  // auth: {
-  //   email: {
-  //     valid: boolean;
-  //   };
-  // };
 }

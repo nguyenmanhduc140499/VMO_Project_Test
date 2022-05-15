@@ -15,12 +15,15 @@ import {
 import { ItemsService } from 'src/Items/Items.service';
 import { OrderService } from './order.service';
 import { Request } from 'express';
+import { VoucherService } from 'src/Voucher/voucher.service';
 
 @Controller('order')
 export class OrderController {
   constructor(
     private readonly orderService: OrderService,
     private readonly itemService: ItemsService,
+    private readonly voucherService: VoucherService,
+    private readonly userService: UsersService,
   ) {}
 
   @Get('action')
@@ -69,10 +72,15 @@ export class OrderController {
     const quantityWithItemID = await this.itemService.checkQuantity(
       Order.itemOrder.ItemID,
     );
+
     if (Order) {
       await this.itemService.updateQuantity(Order.itemOrder.ItemID, {
         quantity: quantityWithItemID - Order.itemOrder.quantity,
       });
+      await this.userService.updateVoucher(
+        Order.orderDetail.UserID,
+        Order.orderDetail.IdVoucher,
+      );
     }
     return {
       Order: Order.itemOrder,

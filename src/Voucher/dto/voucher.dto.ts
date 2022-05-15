@@ -13,6 +13,6 @@ export class VoucherDTO {
   @ApiProperty({ type: Date })
   voucherTime: Date;
 
-  @ApiProperty({ type: Boolean })
-  state: boolean;
+  // @ApiProperty({ type: Boolean })
+  // state: boolean;
 }
