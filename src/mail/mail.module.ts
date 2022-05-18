@@ -1,4 +1,4 @@
-import { UsersModule } from 'src/Users/user.Module';
+import { UsersModule } from './../Users/user.Module';
 import { Module } from '@nestjs/common';
 import { join } from 'path';
 import { MailService } from './mail.service';

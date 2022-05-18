@@ -12,11 +12,11 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { Role } from 'src/Authorization/roles/role.enum';
-import { Roles } from 'src/Authorization/roles/roles.decorator';
+import { Role } from './../Authorization/roles/role.enum';
+import { Roles } from './../Authorization/roles/roles.decorator';
 import { Request } from 'express';
-import { JwtAuthGuard } from 'src/Auth/guards/jwtAuth.guard';
-import { RolesGuard } from 'src/Authorization/roles/roles.guard';
+import { JwtAuthGuard } from './../Auth/guards/jwtAuth.guard';
+import { RolesGuard } from './../Authorization/roles/roles.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('category')
@@ -58,14 +58,15 @@ export class CategoryController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Post()
+  @Post('create-category')
   @ApiBearerAuth()
   @Roles(Role.Admin)
-  async create(@Body() createcategory: createCategory, @Req() req: Request) {
+  //, @Req() req: Request
+  async create(@Body() createcategory: createCategory) {
     return await this.categoryService.create(createcategory);
   }
 
-  @Put(':id')
+  @Put('update/:id')
   async update(
     @Param('id') id: string,
     @Body() updateCategory: updateCategory,

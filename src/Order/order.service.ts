@@ -1,6 +1,6 @@
 import { Voucher, VoucherDocument } from 'src/Voucher/schema/voucher.schema';
-import { ItemsService } from 'src/Items/Items.service';
-import { UsersService } from 'src/Users/user.Service';
+import { ItemsService } from './../Items/Items.service';
+import { UsersService } from './../Users/user.Service';
 import { updateOrderDto } from './dto/updateOrder.dto';
 import { CreateOrderDto } from './dto/createOrder.dto';
 import {
@@ -18,7 +18,7 @@ import {
 } from './schema/orderDetail.schema';
 import { Model } from 'mongoose';
 import { detailOrderDto } from './dto/detailOrder.dto';
-import { VoucherService } from 'src/Voucher/voucher.service';
+import { VoucherService } from './../Voucher/voucher.service';
 
 @Injectable()
 export class OrderService {
@@ -119,12 +119,12 @@ export class OrderService {
           value == 0;
         }
       }
-      if (value == 0) {
-        return await new this.orderDetailModel({
-          paymentAfterDiscount: itemPrice * createDetailOrder.quantity,
-          ...createDetailOrder,
-        }).save();
-      }
+      // if (value == 0) {
+      //   return await new this.orderDetailModel({
+      //     paymentAfterDiscount: itemPrice * createDetailOrder.quantity,
+      //     ...createDetailOrder,
+      //   }).save();
+      // }
       if (value == 50) {
         return await new this.orderDetailModel({
           paymentAfterDiscount: (itemPrice * createDetailOrder.quantity) / 2,

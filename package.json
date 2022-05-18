@@ -40,6 +40,7 @@
     "class-validator": "^0.13.2",
     "fastify-swagger": "^5.2.0",
     "handlebars": "^4.7.7",
+    "jest-mock": "^28.1.0",
     "jsbarcode": "^3.11.5",
     "mongoose": "^6.3.1",
     "nodemailer": "^6.7.3",
@@ -54,7 +55,7 @@
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
     "@nestjs/schematics": "^8.0.0",
-    "@nestjs/testing": "^8.0.0",
+    "@nestjs/testing": "^8.4.5",
     "@types/bcrypt": "^5.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/cron": "^1.7.3",

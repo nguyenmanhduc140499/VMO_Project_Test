@@ -18,7 +18,7 @@ import { CreateUserDTO } from './dto/createUser.dto';
 import { UsersService } from './user.Service';
 import { Request } from 'express';
 import { updateUserDTO } from './dto/updateUser.dto';
-import { VoucherService } from 'src/Voucher/voucher.service';
+import { VoucherService } from './../Voucher/voucher.service';
 
 @Controller('users')
 export class UsersController {
@@ -65,12 +65,12 @@ export class UsersController {
     return await this.service.findName(name);
   }
 
-  @Post()
+  @Post('create-user')
   async create(@Body() createUserDto: CreateUserDTO) {
     return await this.service.create(createUserDto);
   }
 
-  @Put(':id')
+  @Put('update/:id')
   async update(@Param('id') id: string, @Body() updateUserDto: updateUserDTO) {
     const idVoucher = updateUserDto.voucher.IdVoucher;
     const voucherQuantityUpdate = updateUserDto.voucher.voucherQuantity;
@@ -88,7 +88,7 @@ export class UsersController {
       );
     }
   }
-  @Delete(':id')
+  @Delete('delete/:id')
   async delete(@Param('id') id: string) {
     return await this.service.delete(id);
   }

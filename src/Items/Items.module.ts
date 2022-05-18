@@ -3,7 +3,7 @@ import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ItemsService } from './Items.service';
 import { ItemController } from './Items.controller';
-import { OrderModule } from 'src/Order/order.module';
+import { OrderModule } from './../Order/order.module';
 
 @Module({
   providers: [ItemsService],

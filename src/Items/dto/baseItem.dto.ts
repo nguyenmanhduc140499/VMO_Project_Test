@@ -11,7 +11,7 @@ export class baseItemDTO {
   importPrice?: number;
 
   @ApiProperty({ type: Number })
-  price: number;
+  price?: number;
 
   @ApiProperty({ type: Number })
   quantity?: number;

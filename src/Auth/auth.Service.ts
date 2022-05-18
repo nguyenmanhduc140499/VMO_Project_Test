@@ -1,11 +1,11 @@
-import { BaseUserDTO } from 'src/Users/dto/baseUsers.dto';
+import { BaseUserDTO } from './../Users/dto/baseUsers.dto';
 import { MailService } from './../mail/mail.service';
 import * as bcrypt from 'bcryptjs';
 import * as nodemailer from 'nodemailer';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Users, UsersDocument } from 'src/Users/Schema/User.schema';
-import { UsersService } from 'src/Users/user.Service';
+import { Users, UsersDocument } from './../Users/Schema/User.schema';
+import { UsersService } from './../Users/user.Service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { EmailVerification } from './interfaces/emailVerification.interface';

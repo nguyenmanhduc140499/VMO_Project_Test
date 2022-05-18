@@ -1,4 +1,4 @@
-import { UsersService } from 'src/Users/user.Service';
+import { UsersService } from './../Users/user.Service';
 import { detailOrderDto } from './dto/detailOrder.dto';
 import { updateOrderDto } from './dto/updateOrder.dto';
 import { CreateOrderDto } from './dto/createOrder.dto';
@@ -12,10 +12,10 @@ import {
   Put,
   Req,
 } from '@nestjs/common';
-import { ItemsService } from 'src/Items/Items.service';
+import { ItemsService } from './../Items/Items.service';
 import { OrderService } from './order.service';
 import { Request } from 'express';
-import { VoucherService } from 'src/Voucher/voucher.service';
+import { VoucherService } from './../Voucher/voucher.service';
 
 @Controller('order')
 export class OrderController {
@@ -55,9 +55,10 @@ export class OrderController {
     };
   }
 
-  @Get('/order:id')
+  @Get(':id')
   async find(@Param('id') id: string) {
-    return await this.orderService.findOneOrder(id);
+    const order = await this.orderService.findOneOrder(id);
+    return order;
   }
 
   @Post('/createOrder')
@@ -88,16 +89,18 @@ export class OrderController {
     };
   }
 
-  @Put('/updateOrder:id')
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updateOrderDto: updateOrderDto,
   ) {
-    return await this.orderService.update(id, updateOrderDto);
+    const order = await this.orderService.update(id, updateOrderDto);
+    return order;
   }
 
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    return await this.orderService.delete(id);
+    const order = await this.orderService.delete(id);
+    return order;
   }
 }

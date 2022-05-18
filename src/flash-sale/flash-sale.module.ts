@@ -4,7 +4,7 @@ import { FlashSaleService } from './flash-sale.service';
 import { FlashSaleController } from './flash-sale.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FlashSale, FlashSaleSchema } from './schema/FlashSale.Schema';
-import { MailModule } from 'src/mail/mail.module';
+import { MailModule } from './../mail/mail.module';
 
 @Module({
   imports: [

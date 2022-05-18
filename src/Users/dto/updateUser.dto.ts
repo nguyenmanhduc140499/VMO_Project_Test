@@ -1,5 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseUserDTO } from './baseUsers.dto';
+
+export class Voucher {
+  @ApiProperty()
+  IdVoucher: string;
+
+  @ApiProperty()
+  voucherQuantity: number;
+
+  @ApiProperty()
+  value: number;
+}
 export class updateUserDTO {
   @ApiProperty({ type: String })
   userName?: string;
@@ -13,14 +24,9 @@ export class updateUserDTO {
   @ApiProperty({ type: String })
   email?: string;
 
-  @ApiProperty({ type: Object, description: 'voucher' })
-  voucher?: {
-    IdVoucher: string;
-    voucherQuantity: number;
-    value: number;
-    // state: boolean;
-  };
+  @ApiProperty({ type: Voucher, description: 'voucher' })
+  voucher?: Voucher;
 
   @ApiProperty({ type: Date })
-  completedAt: Date;
+  completedAt?: Date;
 }

@@ -7,7 +7,7 @@ import { Model } from 'mongoose';
 import { CreateFlashSaleDTO } from './dto/createFlaseSale.dto';
 import { FlashSale, FlashSaleDocument } from './schema/FlashSale.Schema';
 import EmailScheduleDto from './dto/emailSchedule.dto';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from './../mail/mail.service';
 
 @Injectable()
 export class FlashSaleService {

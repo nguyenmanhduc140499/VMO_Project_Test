@@ -1,4 +1,4 @@
-import { UsersService } from 'src/Users/user.Service';
+import { UsersService } from './../Users/user.Service';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
 

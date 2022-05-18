@@ -13,10 +13,11 @@ export class FlashSaleController {
     @Body() emailSchedule: EmailScheduleDto,
     @Param('FsJob') nameJob: string,
   ) {
-    return await this.FSservice.addCronJobCreateFS(
+    const flashSale = await this.FSservice.addCronJobCreateFS(
       nameJob,
       createFlashSaleDto,
       emailSchedule,
     );
+    return flashSale;
   }
 }

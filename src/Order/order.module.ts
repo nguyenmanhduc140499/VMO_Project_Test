@@ -1,12 +1,12 @@
-import { UsersModule } from 'src/Users/user.Module';
+import { UsersModule } from './../Users/user.Module';
 import { forwardRef, Module } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { OrderController } from './order.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { OrdersDetail, OrderDetailSchema } from './schema/orderDetail.schema';
 import { Orders, OrderSchema } from './schema/order.schema';
-import { ItemModule } from 'src/Items/Items.module';
-import { VoucherModule } from 'src/Voucher/voucher.module';
+import { ItemModule } from './../Items/Items.module';
+import { VoucherModule } from './../Voucher/voucher.module';
 
 @Module({
   imports: [

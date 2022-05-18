@@ -42,13 +42,12 @@ export class CategoryService {
     return await this.model.findByIdAndDelete(id).exec();
   }
 
-  async handlingList() {
+  async handleList() {
     const list = this.findAll();
     const length = (await list).length;
-    const indexRandomFrom = Math.floor(Math.random() * (length - 0)) + 0;
-    const indexRandomTo = Math.floor(Math.random() * (length - 0)) + 0;
+    const indexRandomFrom = Math.floor(Math.random() * (length + 1));
+    const indexRandomTo = Math.floor(Math.random() * (length + 1));
     let temp = list[indexRandomFrom];
     list[indexRandomTo] = list[indexRandomFrom] = temp;
-    
   }
 }

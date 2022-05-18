@@ -1,5 +1,5 @@
 import { Voucher } from 'src/Voucher/schema/voucher.schema';
-import { VoucherService } from 'src/Voucher/voucher.service';
+import { VoucherService } from './../Voucher/voucher.service';
 import { Users, UsersDocument } from './schema/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';

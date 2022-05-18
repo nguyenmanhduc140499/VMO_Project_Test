@@ -47,9 +47,10 @@ export class VoucherController {
     };
   }
 
-  @Get('/:id')
+  @Get(':id')
   async findByID(@Param('id') id: string) {
-    return await this.voucherService.findOne(id);
+    const voucher = await this.voucherService.findOne(id);
+    return voucher;
   }
 
   @Post('/create-voucher')
@@ -57,12 +58,13 @@ export class VoucherController {
     return await this.voucherService.create(createVoucherDto);
   }
 
-  @Put('/update:id')
+  @Put('/update/:id')
   async updateVoucher(
-    @Body() updateVoucher: updateVoucherDTO,
     @Param('id') id: string,
+    @Body() updateVoucher: updateVoucherDTO,
   ) {
-    return await this.voucherService.update(id, updateVoucher);
+    const voucher = await this.voucherService.update(id, updateVoucher);
+    return voucher;
   }
 
   @Delete(':id')

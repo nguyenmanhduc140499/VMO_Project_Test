@@ -1,4 +1,4 @@
-import { LoginDTO } from 'src/Users/dto/Login.dto';
+import { LoginDTO } from './../Users/dto/Login.dto';
 import {
   Controller,
   UseGuards,
@@ -13,10 +13,8 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwtAuth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { Request } from 'express';
-import { BaseUserDTO } from 'src/Users/dto/baseUsers.dto';
-import { UsersService } from 'src/Users/user.Service';
-import { ResponseSuccess, ResponseError } from 'src/common/dto/response.dto';
-import { IResponse } from 'src/common/interfaces/response.interface';
+import { BaseUserDTO } from './../Users/dto/baseUsers.dto';
+import { UsersService } from './../Users/user.Service';
 import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
 
 @Controller('auth')

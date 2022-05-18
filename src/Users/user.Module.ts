@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { VoucherModule } from 'src/Voucher/voucher.module';
+import { VoucherModule } from './../Voucher/voucher.module';
 import { Users, UserSchema } from './Schema/User.schema';
 import { UsersController } from './user.controller';
 import { UsersService } from './user.Service';

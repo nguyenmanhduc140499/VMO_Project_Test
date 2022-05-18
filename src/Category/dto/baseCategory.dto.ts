@@ -2,14 +2,14 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class baseCategoryDTO {
   @ApiProperty({ type: String })
-  categoryName: string;
+  categoryName?: string;
 
   @ApiProperty({ type: String })
   categoryId?: string;
 
   @ApiProperty({ type: String })
-  image: string;
+  image?: string;
 
   @ApiProperty({ type: String })
-  state: string;
+  state?: string;
 }

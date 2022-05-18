@@ -11,8 +11,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { EmailVerificationSchema } from './schema/emailverification.schema';
 import { AuthController } from './auth.Controller';
 import { Users, UserSchema } from 'src/Users/schema/user.schema';
-import { UsersModule } from 'src/Users/user.Module';
-import { MailModule } from 'src/mail/mail.module';
+import { UsersModule } from './../Users/user.Module';
+import { MailModule } from './../mail/mail.module';
 
 @Module({
   imports: [
