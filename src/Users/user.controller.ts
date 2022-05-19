@@ -60,9 +60,14 @@ export class UsersController {
     };
   }
 
-  @Get('/:name')
+  @Get('find-Name/:name')
   async findByName(@Param('name') name: string) {
     return await this.service.findName(name);
+  }
+
+  @Get(':id')
+  async find(@Param('id') id: string) {
+    return await this.service.findOne(id);
   }
 
   @Post('create-user')

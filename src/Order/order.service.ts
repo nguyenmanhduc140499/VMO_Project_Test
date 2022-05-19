@@ -48,10 +48,6 @@ export class OrderService {
     return await this.orderModel.findById(id).exec();
   }
 
-  // async findDetailOrder(id: string): Promise<OrdersDetail> {
-  //   return await this.orderDetailModel.findById(id).exec();
-  // }
-
   async getOrderQuantity(id: string): Promise<number> {
     const Order = await this.orderModel.findById(id).exec();
     let OrderQuantity = Order.quantity;
@@ -65,6 +61,7 @@ export class OrderService {
   }
 
   async getVoucherOfUser(id: string): Promise<Voucher[]> {
+    console.log(id);
     const user = await this.userService.findOne(id);
     return user.voucher;
   }
@@ -119,12 +116,7 @@ export class OrderService {
           value == 0;
         }
       }
-      // if (value == 0) {
-      //   return await new this.orderDetailModel({
-      //     paymentAfterDiscount: itemPrice * createDetailOrder.quantity,
-      //     ...createDetailOrder,
-      //   }).save();
-      // }
+
       if (value == 50) {
         return await new this.orderDetailModel({
           paymentAfterDiscount: (itemPrice * createDetailOrder.quantity) / 2,

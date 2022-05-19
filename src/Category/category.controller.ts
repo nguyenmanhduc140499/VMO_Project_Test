@@ -57,6 +57,11 @@ export class CategoryController {
     return await this.categoryService.findOne(id);
   }
 
+  @Get()
+  async findAll() {
+    return await this.categoryService.findAll();
+  }
+
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Post('create-category')
   @ApiBearerAuth()

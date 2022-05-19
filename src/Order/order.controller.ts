@@ -73,7 +73,6 @@ export class OrderController {
     const quantityWithItemID = await this.itemService.checkQuantity(
       Order.itemOrder.ItemID,
     );
-
     if (Order) {
       await this.itemService.updateQuantity(Order.itemOrder.ItemID, {
         quantity: quantityWithItemID - Order.itemOrder.quantity,

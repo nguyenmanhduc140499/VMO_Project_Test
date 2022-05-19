@@ -27,13 +27,13 @@ export class UsersService {
     return await this.userModel.find().exec();
   }
 
-  async findOne(id: string): Promise<UsersDocument> {
+  async findOne(id: string): Promise<Users> {
     return await this.userModel.findById(id).exec();
   }
 
-  async findEmail(email: string): Promise<any> {
-    return await this.userModel.findOne({ email: email }).lean().exec();
-  }
+  // async findEmail(email: string): Promise<any> {
+  //   return await this.userModel.findOne({ email: email }).lean().exec();
+  // }
   async findName(username: string): Promise<Users> {
     return await this.userModel.findOne({ userName: username }).lean().exec();
   }
@@ -47,12 +47,12 @@ export class UsersService {
     }).save();
   }
 
-  async createPost(createUserDto: CreateUserDTO): Promise<Users> {
-    return await new this.userModel({
-      ...createUserDto,
-      createdAt: new Date(),
-    }).save();
-  }
+  // async createPost(createUserDto: CreateUserDTO): Promise<Users> {
+  //   return await new this.userModel({
+  //     ...createUserDto,
+  //     createdAt: new Date(),
+  //   }).save();
+  // }
 
   async update(id: string, updateUserDto: updateUserDTO): Promise<Object> {
     const user = await this.userModel.findOne({ _id: id });
@@ -70,10 +70,12 @@ export class UsersService {
   }
 
   async deleteVoucher(id: string, index: number) {
-    const user = await this.userModel.findOne({ _id: id });
-    const voucher = user.voucher as any;
-    const newData = voucher.splice(index, 1);
-    const newVoucher = { ...newData };
+    const user = await this.findOne(id);
+    const voucher = user.voucher as [];
+    voucher.splice(index, 1);
+    console.log(voucher);
+
+    const newVoucher = { voucher };
     return await this.userModel.findByIdAndUpdate(id, newVoucher).exec();
   }
 
@@ -89,6 +91,7 @@ export class UsersService {
           voucher[i].voucherQuantity = voucher[i].voucherQuantity - 1;
           newVoucher = voucher[i];
         } else {
+          await this.deleteVoucher(id, index);
           throw new HttpException(
             {
               status: HttpStatus.BAD_REQUEST,
@@ -98,6 +101,14 @@ export class UsersService {
           );
         }
         break; //Stop this loop, we found it!
+      } else {
+        throw new HttpException(
+          {
+            status: HttpStatus.BAD_REQUEST,
+            error: 'voucher is not available',
+          },
+          HttpStatus.BAD_REQUEST,
+        );
       }
     }
     voucher.splice(index, 1);

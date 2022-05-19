@@ -74,16 +74,10 @@ export class VoucherService {
         (expiry < currenDate && quantity == 0)
       ) {
         await this.delete(id);
+        return voucher.voucherTime;
       }
     }
   }
-
-  // async updateState(id: string, state: any): Promise<any> {
-  //   const updateVoucher = await this.voucherModel
-  //     .findOneAndUpdate({ _id: id }, state, { new: true })
-  //     .exec();
-  //   return updateVoucher;
-  // }
 
   async updateQuantity(id: string, quantity: any): Promise<any> {
     const updateQuantity = await this.voucherModel
